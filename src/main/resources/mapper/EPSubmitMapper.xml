@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.emode.eoj.mapper.EPSubmitMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.emode.eoj.pojo.EPSubmit">
+        <id column="id" property="id"/>
+        <result column="problem_id" property="problemId"/>
+        <result column="status" property="status"/>
+        <result column="score" property="score"/>
+        <result column="code_input" property="codeInput"/>
+        <result column="code_output" property="codeOutput"/>
+        <result column="langauge" property="langauge"/>
+    </resultMap>
+
+</mapper>
