@@ -8,6 +8,7 @@ import com.emode.eoj.judge.param.JudgeContext;
 import com.emode.eoj.mapper.ECaseMapper;
 import com.emode.eoj.mapper.EPSubmitMapper;
 import com.emode.eoj.mapper.EProblemMapper;
+import com.emode.eoj.model.dto.JudgementDTO;
 import com.emode.eoj.model.request.EProblemSubmitRequest;
 import com.emode.eoj.pojo.ECase;
 import com.emode.eoj.pojo.EPSubmit;
@@ -19,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -86,6 +90,48 @@ public class EProblemServiceImpl extends ServiceImpl<EProblemMapper, EProblem> i
                 .code(request.getCode())
                 .eProblem(eProblem).build();
         JudgeStrategy.run(judgeContext);
+
+        // 7.调用判题服务，检查测试用例与结果是否一致
+//        judgement(problemId,)
+    }
+
+    /**
+     * 根据判题机返回的结果 与测试用例进行比对
+     */
+    private JudgementDTO judgement(long problemId, List<String> outCaseList) {
+        List<JudgementDTO.TestCaseResult> testCaseResultList = new ArrayList<>();
+
+        LambdaQueryWrapper<ECase> wrapper = Wrappers.lambdaQuery(ECase.class);
+        wrapper.eq(ECase::getProblemId, problemId);
+        List<ECase> eCaseList = eCaseMapper.selectList(wrapper);
+        if (CollectionUtils.isEmpty(outCaseList) || (eCaseList.size() != outCaseList.size())) {
+            throw new EOJServiceException("判题机执行有误，测试用例执行不全面");
+        }
+
+        // 比对用例
+        for (int i = 0; i < eCaseList.size(); i++) {
+            boolean flag = Boolean.FALSE;
+            if (eCaseList.get(i).getOutputCase().equals(outCaseList.get(i))) {
+                flag = Boolean.TRUE;
+            }
+            JudgementDTO.TestCaseResult caseResult = new JudgementDTO.TestCaseResult();
+            caseResult.setInputCase(eCaseList.get(i).getInputCase());
+            caseResult.setOutputCase(outCaseList.get(i));
+            caseResult.setResult(flag);
+            testCaseResultList.add(caseResult);
+        }
+
+        // 计算得分 根据 100 分 算正确的测试用例
+        BigDecimal total = new BigDecimal(100);
+        BigDecimal size = new BigDecimal(eCaseList.size());
+        BigDecimal singleScore = total.divide(size).setScale(2, RoundingMode.HALF_UP);
+        long trueSize = testCaseResultList.stream().filter(JudgementDTO.TestCaseResult::isResult).count();
+        BigDecimal resultScore = singleScore.multiply(new BigDecimal(trueSize))
+                .setScale(2, RoundingMode.HALF_UP);
+
+        return JudgementDTO.builder().score(resultScore.doubleValue())
+                .testCaseResultList(testCaseResultList)
+                .build();
     }
 
     private boolean checkCodeRule(String code) {
