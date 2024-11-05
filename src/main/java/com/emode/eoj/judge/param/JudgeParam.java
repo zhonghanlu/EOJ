@@ -18,7 +18,7 @@ public class JudgeParam {
 
     private List<String> env;
 
-    private List<Map<String, String>> files;
+    private List<String> files;
 
     private long cpuLimit;
 
@@ -31,4 +31,12 @@ public class JudgeParam {
     private List<String> copyOut;
 
     private List<String> copyOutCached;
+
+
+    @Data
+    public static class Files {
+        private String name;
+        private String max;
+    }
+
 }

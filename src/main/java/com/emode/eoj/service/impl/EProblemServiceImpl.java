@@ -1,14 +1,16 @@
 package com.emode.eoj.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.emode.eoj.judge.JudgeStrategy;
+import com.emode.eoj.judge.JudgeRun;
 import com.emode.eoj.judge.param.JudgeContext;
 import com.emode.eoj.mapper.ECaseMapper;
 import com.emode.eoj.mapper.EPSubmitMapper;
 import com.emode.eoj.mapper.EProblemMapper;
 import com.emode.eoj.model.dto.JudgementDTO;
+import com.emode.eoj.model.request.EProblemAnswerKeyRequest;
 import com.emode.eoj.model.request.EProblemSubmitRequest;
 import com.emode.eoj.pojo.ECase;
 import com.emode.eoj.pojo.EPSubmit;
@@ -45,8 +47,10 @@ public class EProblemServiceImpl extends ServiceImpl<EProblemMapper, EProblem> i
 
     private final EPSubmitMapper epSubmitMapper;
 
+    private final JudgeRun judgeRun;
+
     @Override
-    public void submit(EProblemSubmitRequest request) {
+    public JudgementDTO submit(EProblemSubmitRequest request) {
         String code = request.getCode();
         String language = request.getLanguage();
         Long problemId = request.getProblemId();
@@ -89,10 +93,35 @@ public class EProblemServiceImpl extends ServiceImpl<EProblemMapper, EProblem> i
         JudgeContext judgeContext = JudgeContext.builder().language(request.getLanguage())
                 .code(request.getCode())
                 .eProblem(eProblem).build();
-        JudgeStrategy.run(judgeContext);
+        List<String> outCaseList = judgeRun.run(judgeContext);
 
         // 7.调用判题服务，检查测试用例与结果是否一致
-//        judgement(problemId,)
+        JudgementDTO judgementDTO = judgement(problemId, outCaseList);
+        epSubmit.setCodeOutput(JSON.toJSONString(judgementDTO));
+
+        int i = epSubmitMapper.updateById(epSubmit);
+
+        if (i <= 0) {
+            throw new EOJServiceException("题目提交回执结果更新失败");
+        }
+        return judgementDTO;
+    }
+
+    @Override
+    public void writeAnswerKey(EProblemAnswerKeyRequest request) {
+        EProblem eProblem = problemMapper.selectById(request.getProblemId());
+
+        if (Objects.isNull(eProblem)) {
+            throw new EOJServiceException("题目不存在，不可进行编辑");
+        }
+
+        eProblem.setAnswerKey(request.getAnswerKey());
+
+        int i = problemMapper.updateById(eProblem);
+
+        if (i <= 0) {
+            throw new EOJServiceException("编辑错误");
+        }
     }
 
     /**

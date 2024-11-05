@@ -36,5 +36,10 @@ public class EProblem implements Serializable {
      */
     private String content;
 
+    /**
+     * 题解
+     */
+    private String answerKey;
+
 
 }

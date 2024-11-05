@@ -2,6 +2,8 @@ package com.emode.eoj.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.emode.eoj.model.dto.JudgementDTO;
+import com.emode.eoj.model.request.EProblemAnswerKeyRequest;
 import com.emode.eoj.model.request.EProblemSubmitRequest;
 import com.emode.eoj.pojo.EProblem;
 import com.emode.eoj.service.IEProblemService;
@@ -33,7 +35,6 @@ public class EProblemController {
         return Restful.OBJECT(problemService.page(pageQuery.build())).build();
     }
 
-
     /**
      * 根据 id 查询
      */
@@ -43,11 +44,23 @@ public class EProblemController {
     }
 
 
+    /**
+     * 提交
+     */
     @PostMapping("/submit")
-    public Restful<Void> problemList(EProblemSubmitRequest request) {
-        problemService.submit(request);
+    public Restful<JudgementDTO> problemList(EProblemSubmitRequest request) {
+        return Restful.OBJECT(problemService.submit(request)).build();
+    }
+
+    /**
+     * 编写题解
+     */
+    @PostMapping("/write-answer-key")
+    public Restful<Void> writeAnswerKey(EProblemAnswerKeyRequest request) {
+        problemService.writeAnswerKey(request);
         return Restful.SUCCESS().build();
     }
+
 
 
 }
