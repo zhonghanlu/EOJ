@@ -23,4 +23,6 @@ public class JudgeContext {
 
     private JudgeParam judgeParam;
 
+    private Long epSubmitId;
+
 }

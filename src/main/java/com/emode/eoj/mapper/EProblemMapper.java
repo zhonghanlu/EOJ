@@ -2,6 +2,7 @@ package com.emode.eoj.mapper;
 
 import com.emode.eoj.pojo.EProblem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author zhl
  * @since 2024-11-02
  */
+@Mapper
 public interface EProblemMapper extends BaseMapper<EProblem> {
 
 }

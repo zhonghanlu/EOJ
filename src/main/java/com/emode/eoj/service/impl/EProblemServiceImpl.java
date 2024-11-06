@@ -92,11 +92,14 @@ public class EProblemServiceImpl extends ServiceImpl<EProblemMapper, EProblem> i
         // 6.调用判题机处理
         JudgeContext judgeContext = JudgeContext.builder().language(request.getLanguage())
                 .code(request.getCode())
-                .eProblem(eProblem).build();
+                .eProblem(eProblem)
+                .epSubmitId(epSubmit.getId()).build();
         List<String> outCaseList = judgeRun.run(judgeContext);
 
         // 7.调用判题服务，检查测试用例与结果是否一致
         JudgementDTO judgementDTO = judgement(problemId, outCaseList);
+        epSubmit.setStatus("JUDGE_SUCCESS");
+        epSubmit.setScore(String.valueOf(judgementDTO.getScore()));
         epSubmit.setCodeOutput(JSON.toJSONString(judgementDTO));
 
         int i = epSubmitMapper.updateById(epSubmit);
@@ -153,9 +156,19 @@ public class EProblemServiceImpl extends ServiceImpl<EProblemMapper, EProblem> i
         // 计算得分 根据 100 分 算正确的测试用例
         BigDecimal total = new BigDecimal(100);
         BigDecimal size = new BigDecimal(eCaseList.size());
-        BigDecimal singleScore = total.divide(size).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal singleScore = total.divide(size, 2, RoundingMode.HALF_UP);
         long trueSize = testCaseResultList.stream().filter(JudgementDTO.TestCaseResult::isResult).count();
-        BigDecimal resultScore = singleScore.multiply(new BigDecimal(trueSize))
+
+        // 总分
+        BigDecimal resultScore;
+        if (size.longValue() <= trueSize) {
+            resultScore = new BigDecimal(100);
+            return JudgementDTO.builder().score(resultScore.doubleValue())
+                    .testCaseResultList(testCaseResultList)
+                    .build();
+        }
+
+        resultScore = singleScore.multiply(new BigDecimal(trueSize))
                 .setScale(2, RoundingMode.HALF_UP);
 
         return JudgementDTO.builder().score(resultScore.doubleValue())

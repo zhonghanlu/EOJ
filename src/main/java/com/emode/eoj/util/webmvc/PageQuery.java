@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author zhl
@@ -50,12 +51,19 @@ public class PageQuery implements Serializable {
     public static final int DEFAULT_PAGE_SIZE = 50;
 
     public <T> Page<T> build() {
-//        Integer pn = ObjectUtil.defaultIfNull(getPageNum(), DEFAULT_PAGE_NUM);
-//        Integer ps = ObjectUtil.defaultIfNull(getPageSize(), DEFAULT_PAGE_SIZE);
+        Integer pn = getPageNum();
+        if (Objects.isNull(pn)) {
+            pn = DEFAULT_PAGE_NUM;
+        }
+
+        Integer ps = getPageSize();
+        if (Objects.isNull(ps)) {
+            ps = DEFAULT_PAGE_SIZE;
+        }
 //        if (pn <= 0) {
 //            pn = DEFAULT_PAGE_NUM;
 //        }
-        Page<T> page = new Page<>(getPageNum(), getPageSize());
+        Page<T> page = new Page<>(pn, ps);
 //        List<OrderItem> orderItems = buildOrderItem();
 //        if (CollUtil.isNotEmpty(orderItems)) {
 //            page.addOrder(orderItems);

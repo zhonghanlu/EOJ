@@ -18,13 +18,13 @@ public class JudgeParam {
 
     private List<String> env;
 
-    private List<String> files;
+    private Object files;
 
-    private long cpuLimit;
+    private Long cpuLimit;
 
-    private long memoryLimit;
+    private Long memoryLimit;
 
-    private long procLimit;
+    private Long procLimit;
 
     private Map<String, Map<String, String>> copyIn;
 

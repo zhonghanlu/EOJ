@@ -11,6 +11,7 @@ import com.emode.eoj.util.webmvc.PageQuery;
 import com.emode.eoj.util.webmvc.Restful;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * <p>
@@ -48,7 +49,7 @@ public class EProblemController {
      * 提交
      */
     @PostMapping("/submit")
-    public Restful<JudgementDTO> problemList(EProblemSubmitRequest request) {
+    public Restful<JudgementDTO> problemList(@RequestBody EProblemSubmitRequest request) {
         return Restful.OBJECT(problemService.submit(request)).build();
     }
 
@@ -56,11 +57,10 @@ public class EProblemController {
      * 编写题解
      */
     @PostMapping("/write-answer-key")
-    public Restful<Void> writeAnswerKey(EProblemAnswerKeyRequest request) {
+    public Restful<Void> writeAnswerKey(@RequestBody EProblemAnswerKeyRequest request) {
         problemService.writeAnswerKey(request);
         return Restful.SUCCESS().build();
     }
-
 
 
 }
