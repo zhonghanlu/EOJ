@@ -1,0 +1,145 @@
+编译：
+{
+	"cmd": [
+		{
+			"args": [
+				"/usr/bin/javac",
+				"Main.java"
+			],
+			"env": [
+				"PATH=/usr/bin:/bin"
+			],
+			"files": [
+				{
+					"content": ""
+				},
+				{
+					"name": "stdout",
+					"max": 10240
+				},
+				{
+					"name": "stderr",
+					"max": 10240
+				}
+			],
+			"cpuLimit": 20000000000,
+			"memoryLimit": 104857600,
+			"procLimit": 50,
+			"copyIn": {
+				"Main.java": {
+					"content": "import java.io.*;\nimport java.util.*;\n\npublic class Main\n{\n  public static void main(String args[]) throws Exception\n  {\n    Scanner cin = new Scanner(System.in);\n    int a = cin.nextInt(), b = cin.nextInt();\n    System.out.println(a + b);\n  }\n}\n"
+				}
+			},
+			"copyOut": [
+				"stdout",
+				"stderr"
+			],
+			"copyOutCached": [
+				"Main.class"
+			]
+		}
+	]
+}
+
+返回：
+[
+    {
+        "status": "Accepted",
+        "exitStatus": 0,
+        "time": 1104325244,
+        "memory": 46432256,
+        "runTime": 687538977,
+        "files": {
+            "stderr": "",
+            "stdout": ""
+        },
+        "fileIds": {
+            "Main.class": "VO5AM5ST"
+        }
+    }
+]
+
+
+
+
+
+
+
+
+
+执行：
+
+{
+	"cmd": [{
+		"args": ["/usr/bin/java","Main"],
+		"env": ["PATH=/usr/bin:/bin", "LANG=en_US.UTF-8", "LC_ALL=en_US.UTF-8", "LANGUAGE=en_US:en"],
+		"files": [{
+			"content": "1 1"
+		}, {
+			"name": "stdout",
+			"max": 10240
+		}, {
+			"name": "stderr",
+			"max": 10240
+		}],
+		"cpuLimit": 20000000000,
+		"memoryLimit": 104857600,
+		"procLimit": 50,
+		"copyIn": {
+			"Main.class": {
+                "fileId": "VO5AM5ST"
+			}
+		}
+	}]
+}
+
+输出：
+
+[
+    {
+        "status": "Accepted",
+        "exitStatus": 0,
+        "time": 121243052,
+        "memory": 11743232,
+        "runTime": 122216860,
+        "files": {
+            "stderr": "",
+            "stdout": "2\n"
+        }
+    }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
