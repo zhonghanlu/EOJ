@@ -118,6 +118,7 @@ public class EProblemServiceImpl extends ServiceImpl<EProblemMapper, EProblem> i
             throw new EOJServiceException("题目不存在，不可进行编辑");
         }
 
+        eProblem.setContent(request.getContent());
         eProblem.setAnswerKey(request.getAnswerKey());
 
         int i = problemMapper.updateById(eProblem);

@@ -9,6 +9,8 @@ public class EProblemAnswerKeyRequest {
 
     private Long problemId;
 
+    private String content;
+
     private String answerKey;
 
 }
