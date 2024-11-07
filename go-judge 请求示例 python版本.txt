@@ -1,0 +1,88 @@
+编译
+{
+	"cmd": [{
+		"args": [
+			"/usr/bin/python3",
+			"-c",
+			"\"import py_compile; py_compile.compile('a.py', 'a.pyc', doraise=True)\""
+		],
+		"env": [
+			"PATH=/usr/bin:/bin",
+			"LANG=en_US.UTF-8",
+            "LANGUAGE=en_US:en", "LC_ALL=en_US.UTF-8", "PYTHONIOENCODING=utf-8"
+		],
+		"files": [{
+				"content": ""
+			},
+			{
+				"name": "stdout",
+				"max": 10240
+			},
+			{
+				"name": "stderr",
+				"max": 10240
+			}
+		],
+		"cpuLimit": 100000000,
+		"memoryLimit": 100000000,
+		"procLimit": 50,
+		"copyIn": {
+			"a.py": {
+				"content": "a, b = map(int, input().split())\nprint(a + b)\n"
+			}
+		},
+		"copyOut": [
+			"stdout",
+			"stderr"
+		],
+		"copyOutCached": [
+			"a.py"
+		]
+	}]
+}
+
+
+
+[
+    {
+        "status": "Accepted",
+        "exitStatus": 0,
+        "time": 20597313,
+        "memory": 3129344,
+        "runTime": 21204537,
+        "files": {
+            "stderr": "",
+            "stdout": ""
+        },
+        "fileIds": {
+            "a.py": "MLWXGIX3"
+        }
+    }
+]
+
+
+执行
+{
+	"cmd": [{
+		"args": ["/usr/bin/python3","a.py"],
+		"env": ["PATH=/usr/bin:/bin", "LANG=en_US.UTF-8",
+            "LANGUAGE=en_US:en", "LC_ALL=en_US.UTF-8", "PYTHONIOENCODING=utf-8"],
+		"files": [{
+			"content": "1 1"
+		}, {
+			"name": "stdout",
+			"max": 10240
+		}, {
+			"name": "stderr",
+			"max": 10240
+		}],
+		"cpuLimit": 20000000000,
+		"memoryLimit": 104857600,
+		"procLimit": 50,
+		"copyIn": {
+			"a.py": {
+                "fileId": "MLWXGIX3"
+			}
+		}
+	}]
+}

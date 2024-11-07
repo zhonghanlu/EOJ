@@ -1,0 +1,122 @@
+编译
+{
+	"cmd": [
+		{
+			"args": [
+				"/usr/bin/g++",
+				"a.cc",
+				"-o",
+				"a"
+			],
+			"env": [
+				"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+				"LANG=en_US.UTF-8",
+				"LC_ALL=en_US.UTF-8",
+				"LANGUAGE=en_US:en",
+				"HOME=/w"
+			],
+			"files": [
+				{
+					"content": ""
+				},
+				{
+					"name": "stdout",
+					"max": 10240
+				},
+				{
+					"name": "stderr",
+					"max": 10240
+				}
+			],
+			"cpuLimit": 10000000000,
+			"memoryLimit": 104857600,
+			"procLimit": 50,
+			"copyIn": {
+				"a.cc": {
+					"content": "#include <iostream>\nusing namespace std;\nint main() {\nint a, b;\ncin >> a >> b;\ncout << a + b << endl;\n}"
+				}
+			},
+			"copyOut": [
+				"stdout",
+				"stderr"
+			],
+			"copyOutCached": [
+				"a"
+			]
+		}
+	]
+}
+
+
+[
+    {
+        "status": "Accepted",
+        "exitStatus": 0,
+        "time": 167728245,
+        "memory": 35295232,
+        "runTime": 285936668,
+        "files": {
+            "stderr": "",
+            "stdout": ""
+        },
+        "fileIds": {
+            "a": "UMLCRALC"
+        }
+    }
+]
+
+
+
+执行
+{
+	"cmd": [
+		{
+			"args": [
+				"a"
+			],
+			"env": [
+				"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+				"LANG=en_US.UTF-8",
+				"LC_ALL=en_US.UTF-8",
+				"LANGUAGE=en_US:en",
+				"HOME=/w"
+			],
+			"files": [
+				{
+					"content": "1 1"
+				},
+				{
+					"name": "stdout",
+					"max": 10240
+				},
+				{
+					"name": "stderr",
+					"max": 10240
+				}
+			],
+			"cpuLimit": 10000000000,
+			"memoryLimit": 104857600,
+			"procLimit": 50,
+			"copyIn": {
+				"a": {
+					"fileId": "UMLCRALC"
+				}
+			}
+		}
+	]
+}
+
+[
+    {
+        "status": "Accepted",
+        "exitStatus": 0,
+        "time": 1611804,
+        "memory": 262144,
+        "runTime": 2795222,
+        "files": {
+            "stderr": "",
+            "stdout": "2\n"
+        }
+    }
+]
+
