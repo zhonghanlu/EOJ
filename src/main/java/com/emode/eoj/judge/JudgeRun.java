@@ -172,7 +172,7 @@ public class JudgeRun {
         List<Object> consoleOutput = getConsoleOutput("");
 
         return JudgeParam.builder()
-                .args(Arrays.asList(languageInfo.getCompileArgs().split(",")))
+                .args(Arrays.asList(languageInfo.getCompileArgs().split("@")))
                 .env(Arrays.asList(languageInfo.getCompileEnv().split(",")))
                 .files(consoleOutput)
                 .cpuLimit(10000000000L)

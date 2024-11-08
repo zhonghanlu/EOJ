@@ -67,7 +67,7 @@ public class EProblemServiceImpl extends ServiceImpl<EProblemMapper, EProblem> i
             throw new EOJServiceException("测试用例不充分，请联系老师测评");
         }
         // 3.入参语言是否合法
-        List<String> languageList = Arrays.asList("JAVA", "C++", "PYTHON");
+        List<String> languageList = Arrays.asList("JAVA", "CPP", "PYTHON");
         String languageUpperCase = language.toUpperCase();
         if (!languageList.contains(languageUpperCase)) {
             throw new EOJServiceException("当前语言类型暂不支持");
