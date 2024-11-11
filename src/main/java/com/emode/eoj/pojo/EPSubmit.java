@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -61,5 +62,9 @@ public class EPSubmit implements Serializable {
      */
     private String language;
 
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
 }

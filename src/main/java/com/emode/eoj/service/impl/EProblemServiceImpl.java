@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,6 +102,7 @@ public class EProblemServiceImpl extends ServiceImpl<EProblemMapper, EProblem> i
         epSubmit.setStatus("JUDGE_SUCCESS");
         epSubmit.setScore(String.valueOf(judgementDTO.getScore()));
         epSubmit.setCodeOutput(JSON.toJSONString(judgementDTO));
+        epSubmit.setCreateTime(LocalDateTime.now());
 
         int i = epSubmitMapper.updateById(epSubmit);
 
