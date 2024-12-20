@@ -1,6 +1,8 @@
 package com.emode.eoj.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.emode.eoj.model.dto.JudgementDTO;
 import com.emode.eoj.model.request.EProblemAnswerKeyRequest;
@@ -11,7 +13,8 @@ import com.emode.eoj.util.webmvc.PageQuery;
 import com.emode.eoj.util.webmvc.Restful;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.Objects;
 
 /**
  * <p>
@@ -32,8 +35,10 @@ public class EProblemController {
      * 分页
      */
     @GetMapping("/page")
-    public Restful<Page<EProblem>> problemList(PageQuery pageQuery) {
-        return Restful.OBJECT(problemService.page(pageQuery.build())).build();
+    public Restful<Page<EProblem>> problemList(PageQuery pageQuery, @RequestParam(required = false) Long problemId) {
+        LambdaQueryWrapper<EProblem> wrapper = Wrappers.lambdaQuery(EProblem.class);
+        wrapper.eq(Objects.nonNull(problemId), EProblem::getId, problemId);
+        return Restful.OBJECT(problemService.page(pageQuery.build(), wrapper)).build();
     }
 
     /**
