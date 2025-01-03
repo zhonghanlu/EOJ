@@ -1,0 +1,23 @@
+1.访问github官网go-judge，下载对应版本的go-judge预编译文件
+
+2.添加权限
+chmod +x go-judge.xxxx
+./go-judge.xxxx
+
+3.centos7 部署注意
+在centos7系统中正常运行go-judge服务，需要开启 user 命名空间来使用。
+
+永久性设置操作
+echo user.max_user_namespaces=10000 >> /etc/sysctl.d/98-userns.conf
+
+reboot // 重启机器生效
+
+临时开启操作
+echo 10000 > /proc/sys/user/max_user_namespaces
+
+4.云服务器，需要在启动时候挂载内网地址并且开通防火墙
+./go-judge.xxxx -http-addr=xx.xx.xx.xx:5050
+
+5.后台运行
+编写shell脚本
+nohup /usr/local/go-judge/go-judge_1.8.5_linux_386 -http-addr=10.0.16.3:5050 go-judge-server > /usr/local/go-judge/logs/go-judge.log 2>&1 &
